@@ -4,12 +4,10 @@ import sys
 
 
 def parse_polynomial(poly_str):
-    # Parse the polynomial coefficients from the input string
     return [float(coef) for coef in poly_str.split('*')]
 
 
 def evaluate_polynomial(poly, x):
-    # Evaluate the polynomial using Horner's method for better efficiency
     result = 0.0
     for coef in reversed(poly):
         result = result * x + coef
