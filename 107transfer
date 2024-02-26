@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+
+import sys
+
+
+def parse_polynomial(poly_str):
+    # Parse the polynomial coefficients from the input string
+    return [float(coef) for coef in poly_str.split('*')]
+
+
+def evaluate_polynomial(poly, x):
+    # Evaluate the polynomial using Horner's method for better efficiency
+    result = 0.0
+    for coef in reversed(poly):
+        result = result * x + coef
+    return result
+
+
+def main(args):
+    if '-h' in args:
+        print("USAGE")
+        print("\\t./107transfer [num den]+")
+        print("DESCRIPTION")
+        print("\\tnum\\tpolynomial numerator defined by its coefficients")
+        print("\\tden\\tpolynomial denominator defined by its coefficients")
+        return
+
+    components = []
+    for i in range(0, len(args), 2):
+        num = parse_polynomial(args[i])
+        den = parse_polynomial(args[i + 1])
+        components.append((num, den))
+
+    for i in range(1001):
+        x = i / 1000
+        response = 1.0
+        for (num, den) in components:
+            response *= evaluate_polynomial(num, x) / evaluate_polynomial(den, x)
+        print(f"{x:.3f} -> {response:.5f}")
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
